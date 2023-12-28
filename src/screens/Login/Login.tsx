@@ -1,26 +1,25 @@
 import React from 'react';
-import {View} from 'react-native';
-import {Button, Card, TextInput} from 'react-native-paper';
+import {View, Text} from 'react-native';
 import {loginStyle} from './Login.style';
+import Button from '../../components/Button/Button';
+import InputField from '../../components/InputField/InputField';
 
 const Login = () => {
   return (
     <View style={loginStyle.container}>
-      <Card style={loginStyle.view}>
-        <Card.Title title="POC App" titleStyle={loginStyle.cardTitle} />
-        <Card.Content>
-          <TextInput
-            label="Email"
-            keyboardType="email-address"
-            mode="outlined"
+      <View style={loginStyle.card}>
+        <Text style={loginStyle.cardTitle}>POC App</Text>
+        <View>
+          <InputField placeholder="Email" keyboardType="email-address" />
+          <InputField placeholder="Password" secureTextEntry={true} />
+          <Button btnLabel="Login" />
+          <Button
+            btnLabel="Sign Up"
+            buttonContainer={loginStyle.buttonContainer}
+            buttonText={loginStyle.buttonText}
           />
-          <TextInput label="Password" secureTextEntry={true} mode="outlined" />
-          <Button mode="contained" style={loginStyle.cardButton}>
-            Login
-          </Button>
-          <Button style={loginStyle.cardButton}>Register</Button>
-        </Card.Content>
-      </Card>
+        </View>
+      </View>
     </View>
   );
 };
