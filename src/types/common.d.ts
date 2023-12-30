@@ -2,6 +2,7 @@ type ButtonProps = {
   btnLabel: string;
   buttonContainer?: ViewStyle;
   buttonText?: TextStyle;
+  Press: () => void;
 };
 
 type BackgroundProps = {
@@ -10,8 +11,14 @@ type BackgroundProps = {
 };
 
 type InputFieldProps = {
-  placeholder?: string;
-  keyboardType?: TextInputProps['keyboardType'];
-  secureTextEntry?: boolean;
+  label: string;
   onChangeText?: (text: string) => void;
 };
+
+type RootStackParamList = {
+  Landing: undefined;
+  Login: undefined;
+  Register: undefined;
+};
+
+type NavigationProps = NativeStackScreenProps<RootStackParamList>;
