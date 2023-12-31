@@ -17,11 +17,6 @@ const Navigators = () => {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
       </Stack.Navigator>
-      {/* <Background source={require('../assests/images/purple-background.jpg')}> */}
-      {/* <Login /> */}
-      {/* <Register /> */}
-      {/* <LandingScreen />
-    </Background> */}
     </NavigationContainer>
   );
 };

@@ -2,18 +2,20 @@ import React, {useState} from 'react';
 import {Text, TextInput, View} from 'react-native';
 import {inputStyle} from './InputField.style';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {Controller} from 'react-hook-form';
 
 const InputField = ({
   label,
-  error,
   password,
   onFocus = () => {},
+  control,
+  rules = {},
   ...props
 }: any) => {
   const [isFocused, setIsFocused] = useState(false);
   const [hidePassword, setHidePassword] = useState(password);
 
-  const getBorderColor = () => {
+  const getBorderColor = (error: any) => {
     if (error) {
       return 'red';
     } else if (isFocused) {
@@ -25,30 +27,50 @@ const InputField = ({
   return (
     <View style={inputStyle.container}>
       <Text style={inputStyle.label}>{label}</Text>
-      <View
-        style={[inputStyle.inputContainer, {borderColor: getBorderColor()}]}>
-        <TextInput
-          secureTextEntry={hidePassword}
-          style={inputStyle.inputContent}
-          {...props}
-          autoCorrect={false}
-          onFocus={() => {
-            onFocus();
-            setIsFocused(true);
-          }}
-          onBlur={() => {
-            setIsFocused(false);
-          }}
-        />
-        {password && (
-          <Icon
-            name={hidePassword ? 'eye-outline' : 'eye-off-outline'}
-            style={inputStyle.iconStyle}
-            onPress={() => setHidePassword(!hidePassword)}
-          />
+
+      <Controller
+        control={control}
+        name={label}
+        rules={rules}
+        render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
+          <>
+            <View
+              style={[
+                inputStyle.inputContainer,
+                {borderColor: getBorderColor(error)},
+              ]}>
+              <TextInput
+                secureTextEntry={hidePassword}
+                style={inputStyle.inputContent}
+                {...props}
+                autoCorrect={false}
+                onFocus={() => {
+                  onFocus();
+                  setIsFocused(true);
+                }}
+                onBlur={() => {
+                  onBlur;
+                  setIsFocused(false);
+                }}
+                onChangeText={onChange}
+                value={value}
+              />
+              {password && (
+                <Icon
+                  name={hidePassword ? 'eye-outline' : 'eye-off-outline'}
+                  style={inputStyle.iconStyle}
+                  onPress={() => setHidePassword(!hidePassword)}
+                />
+              )}
+            </View>
+            {error && (
+              <Text style={inputStyle.errorContent}>
+                {error.message || 'Error'}
+              </Text>
+            )}
+          </>
         )}
-      </View>
-      {error && <Text style={inputStyle.errorContent}>{error}</Text>}
+      />
     </View>
   );
 };

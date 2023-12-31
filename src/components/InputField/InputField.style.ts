@@ -19,7 +19,6 @@ export const inputStyle = StyleSheet.create({
   },
   inputContent: {
     flex: 1,
-    color: 'rgb(101,37,131)',
     textDecorationLine: 'none',
   },
   errorContent: {

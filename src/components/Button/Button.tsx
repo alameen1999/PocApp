@@ -10,6 +10,7 @@ const Button = ({
 }: any) => {
   return (
     <TouchableOpacity
+      activeOpacity={0.7}
       onPress={onPress}
       style={[buttonStyle.buttonContainer, buttonContainer]}>
       <Text style={[buttonStyle.buttonText, buttonText]}>{btnLabel}</Text>
