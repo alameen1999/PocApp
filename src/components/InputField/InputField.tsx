@@ -10,6 +10,7 @@ const InputField = ({
   onFocus = () => {},
   control,
   rules = {},
+  name,
   ...props
 }: any) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -30,7 +31,7 @@ const InputField = ({
 
       <Controller
         control={control}
-        name={label}
+        name={name}
         rules={rules}
         render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
           <>

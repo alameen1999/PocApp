@@ -7,13 +7,34 @@ import Background from '../../components/Background/Background';
 import {useForm} from 'react-hook-form';
 import {emailRegex} from '../../utils/constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// import {useDispatch} from 'react-redux';
+// import {addUser} from '../../store/store';
 
 const Register = ({navigation}: NavigationProps) => {
   const {control, handleSubmit} = useForm();
+  // const dispatch = useDispatch();
 
-  const OnSignUpPressed = (data: any) => {
+  const OnSignUpPressed = async (data: any) => {
     try {
-      AsyncStorage.setItem('user', JSON.stringify(data));
+      const existingUsersJSON = await AsyncStorage.getItem('users');
+      const existingUsers = existingUsersJSON
+        ? JSON.parse(existingUsersJSON)
+        : [];
+
+      const isEmailRegistered = existingUsers.some(
+        (user: any) => user.Email === data.Email,
+      );
+      if (isEmailRegistered) {
+        Alert.alert('Error', 'Email is already registered');
+        return;
+      }
+
+      const newUsers = [...existingUsers, data];
+
+      await AsyncStorage.setItem('users', JSON.stringify(newUsers));
+
+      // dispatch(addUser(data));
+
       navigation.navigate('Login');
     } catch (error) {
       Alert.alert('Error', 'Something went wrong');
@@ -27,18 +48,21 @@ const Register = ({navigation}: NavigationProps) => {
           <View>
             <InputField
               label="First Name"
+              name="User"
               placeholder="Enter your first name"
               control={control}
               rules={{required: 'First name is required'}}
             />
             <InputField
               label="Last Name"
+              name="Surname"
               placeholder="Enter your last name"
               control={control}
               rules={{required: 'Last name is required'}}
             />
             <InputField
               label="Email"
+              name="Email"
               placeholder="Enter your email address"
               keyboardType="email-address"
               control={control}
@@ -49,6 +73,7 @@ const Register = ({navigation}: NavigationProps) => {
             />
             <InputField
               label="Password"
+              name="Password"
               placeholder="Enter your password"
               password
               control={control}

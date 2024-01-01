@@ -7,24 +7,34 @@ import Background from '../../components/Background/Background';
 import {useForm} from 'react-hook-form';
 import {emailRegex} from '../../utils/constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// import {useDispatch} from 'react-redux';
+// import {authenticateUser} from '../../store/store';
 
 const Login = ({navigation}: NavigationProps) => {
   const {control, handleSubmit} = useForm();
 
+  // const dispatch = useDispatch();
+
   const OnSignInPressed = async (data: any) => {
     try {
-      let userData: string | null = await AsyncStorage.getItem('user');
-      if (userData !== null) {
-        let parsedData = JSON.parse(userData);
-        if (
-          data.Email === parsedData.Email &&
-          data.Password === parsedData.Password
-        ) {
-          AsyncStorage.setItem(
-            'user',
-            JSON.stringify({...parsedData, loggedIn: true}),
+      const userDataString: string | null = await AsyncStorage.getItem('users');
+
+      if (userDataString !== null) {
+        const userDataArray = JSON.parse(userDataString);
+
+        const foundUser = userDataArray.find(
+          (user: any) => user.Email === data.Email,
+        );
+
+        if (foundUser && foundUser.Password === data.Password) {
+          const updatedUser = {...foundUser, loggedIn: true};
+
+          const updatedUserDataArray = userDataArray.map((user: any) =>
+            user.Email === foundUser.Email ? updatedUser : user,
           );
-          Alert.alert('LoggedIn');
+
+          AsyncStorage.setItem('users', JSON.stringify(updatedUserDataArray));
+          navigation.navigate('Home');
         } else {
           Alert.alert('Error', 'Invalid Details');
         }
@@ -44,6 +54,7 @@ const Login = ({navigation}: NavigationProps) => {
           <View>
             <InputField
               label="Email"
+              name="Email"
               placeholder="Enter your email address"
               keyboardType="email-address"
               control={control}
@@ -54,6 +65,7 @@ const Login = ({navigation}: NavigationProps) => {
             />
             <InputField
               label="Password"
+              name="Password"
               placeholder="Enter your password"
               password
               control={control}
