@@ -22,7 +22,7 @@ const Register = ({navigation}: NavigationProps) => {
         : [];
 
       const isEmailRegistered = existingUsers.some(
-        (user: any) => user.Email === data.Email,
+        (user: any) => user.email === data.email,
       );
       if (isEmailRegistered) {
         Alert.alert('Error', 'Email is already registered');
@@ -48,21 +48,21 @@ const Register = ({navigation}: NavigationProps) => {
           <View>
             <InputField
               label="First Name"
-              name="User"
+              name="first_name"
               placeholder="Enter your first name"
               control={control}
               rules={{required: 'First name is required'}}
             />
             <InputField
               label="Last Name"
-              name="Surname"
+              name="last_name"
               placeholder="Enter your last name"
               control={control}
               rules={{required: 'Last name is required'}}
             />
             <InputField
               label="Email"
-              name="Email"
+              name="email"
               placeholder="Enter your email address"
               keyboardType="email-address"
               control={control}
@@ -73,7 +73,7 @@ const Register = ({navigation}: NavigationProps) => {
             />
             <InputField
               label="Password"
-              name="Password"
+              name="password"
               placeholder="Enter your password"
               password
               control={control}

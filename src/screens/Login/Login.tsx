@@ -23,14 +23,14 @@ const Login = ({navigation}: NavigationProps) => {
         const userDataArray = JSON.parse(userDataString);
 
         const foundUser = userDataArray.find(
-          (user: any) => user.Email === data.Email,
+          (user: any) => user.email === data.email,
         );
 
-        if (foundUser && foundUser.Password === data.Password) {
+        if (foundUser && foundUser.password === data.password) {
           const updatedUser = {...foundUser, loggedIn: true};
 
           const updatedUserDataArray = userDataArray.map((user: any) =>
-            user.Email === foundUser.Email ? updatedUser : user,
+            user.email === foundUser.email ? updatedUser : user,
           );
 
           AsyncStorage.setItem('users', JSON.stringify(updatedUserDataArray));
@@ -54,7 +54,7 @@ const Login = ({navigation}: NavigationProps) => {
           <View>
             <InputField
               label="Email"
-              name="Email"
+              name="email"
               placeholder="Enter your email address"
               keyboardType="email-address"
               control={control}
@@ -65,7 +65,7 @@ const Login = ({navigation}: NavigationProps) => {
             />
             <InputField
               label="Password"
-              name="Password"
+              name="password"
               placeholder="Enter your password"
               password
               control={control}
