@@ -7,12 +7,11 @@ import Background from '../../components/Background/Background';
 import {useForm} from 'react-hook-form';
 import {emailRegex} from '../../utils/constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import {useDispatch} from 'react-redux';
-// import {addUser} from '../../store/store';
+import {useDispatch} from 'react-redux';
 
 const Register = ({navigation}: NavigationProps) => {
   const {control, handleSubmit} = useForm();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const OnSignUpPressed = async (data: any) => {
     try {
@@ -20,7 +19,6 @@ const Register = ({navigation}: NavigationProps) => {
       const existingUsers = existingUsersJSON
         ? JSON.parse(existingUsersJSON)
         : [];
-
       const isEmailRegistered = existingUsers.some(
         (user: any) => user.email === data.email,
       );
@@ -28,18 +26,15 @@ const Register = ({navigation}: NavigationProps) => {
         Alert.alert('Error', 'Email is already registered');
         return;
       }
-
       const newUsers = [...existingUsers, data];
-
       await AsyncStorage.setItem('users', JSON.stringify(newUsers));
-
-      // dispatch(addUser(data));
-
+      dispatch({type: 'ADD_USER', payload: newUsers});
       navigation.navigate('Login');
     } catch (error) {
       Alert.alert('Error', 'Something went wrong');
     }
   };
+
   return (
     <Background source={require('../../assests/images/purple-background.jpg')}>
       <View style={registerStyle.container}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, Alert} from 'react-native';
 import {loginStyle} from './Login.style';
 import Button from '../../components/Button/Button';
@@ -6,43 +6,42 @@ import InputField from '../../components/InputField/InputField';
 import Background from '../../components/Background/Background';
 import {useForm} from 'react-hook-form';
 import {emailRegex} from '../../utils/constants';
+import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import {useDispatch} from 'react-redux';
-// import {authenticateUser} from '../../store/store';
 
 const Login = ({navigation}: NavigationProps) => {
   const {control, handleSubmit} = useForm();
+  const dispatch = useDispatch();
 
-  // const dispatch = useDispatch();
-
-  const OnSignInPressed = async (data: any) => {
-    try {
-      const userDataString: string | null = await AsyncStorage.getItem('users');
-
-      if (userDataString !== null) {
-        const userDataArray = JSON.parse(userDataString);
-
-        const foundUser = userDataArray.find(
-          (user: any) => user.email === data.email,
-        );
-
-        if (foundUser && foundUser.password === data.password) {
-          const updatedUser = {...foundUser, loggedIn: true};
-
-          const updatedUserDataArray = userDataArray.map((user: any) =>
-            user.email === foundUser.email ? updatedUser : user,
-          );
-
-          AsyncStorage.setItem('users', JSON.stringify(updatedUserDataArray));
-          navigation.navigate('Home');
-        } else {
-          Alert.alert('Error', 'Invalid Details');
-        }
-      } else {
-        Alert.alert('Error', 'User does not exist');
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const users = await AsyncStorage.getItem('users');
+      if (users !== null) {
+        dispatch({type: 'ADD_USER', payload: JSON.parse(users)});
       }
+    };
+
+    fetchUsers();
+  }, [dispatch]);
+
+  const users = useSelector((state: any) => {
+    return state.data;
+  });
+
+  const OnSignInPressed = (data: any) => {
+    try {
+      const foundUser = users.find((user: any) => user.email === data.email);
+      if (foundUser) {
+        if (foundUser.password === data.password) {
+          dispatch({type: 'SET_LOGIN', payload: foundUser});
+          return navigation.navigate('Home');
+        } else {
+          return Alert.alert('Error', 'Invalid Password');
+        }
+      }
+      return Alert.alert('Error', 'Invalid Email');
     } catch (error) {
-      Alert.alert('Error', 'Something went wrong');
+      return Alert.alert('Error', 'Something went wrong');
     }
   };
 

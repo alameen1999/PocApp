@@ -16,7 +16,7 @@ const Header = ({user, drawer}: any) => {
             onPress={() => drawer.current?.openDrawer()}
           />
         </View>
-        <Text style={headerStyle.headerText}>{user}</Text>
+        <Text style={headerStyle.headerText}>{user?.first_name}</Text>
         <UserIcon name="user" size={30} color="white" />
       </View>
     </SafeAreaView>

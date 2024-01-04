@@ -22,3 +22,10 @@ type RootStackParamList = {
 };
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList>;
+
+type DrawerProps = {
+  user: any;
+  drawer: any;
+  navigation: NavigationProps;
+  children: any;
+};

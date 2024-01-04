@@ -19,4 +19,16 @@ export const headerStyle = StyleSheet.create({
   iconContainer: {
     flex: 1,
   },
+  drawerContainer: {
+    flex: 1,
+    padding: 20,
+  },
+  userInfoDrawer: {
+    flexDirection: 'column',
+    marginBottom: 20,
+  },
+  userInfoText: {
+    fontSize: 16,
+    color: 'rgb(101,37,131)',
+  },
 });

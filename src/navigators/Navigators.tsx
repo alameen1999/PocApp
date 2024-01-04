@@ -8,6 +8,8 @@ import Home from '../screens/Home/Home';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../components/Loader/Loader';
 import UserDetails from '../screens/UserDetails/UserDetails';
+import {Provider} from 'react-redux';
+import {store} from '../store/store';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,29 +36,34 @@ const Navigators = () => {
         } else {
           setInitialRoute('Landing');
         }
+      } else {
+        setInitialRoute('Landing');
       }
     } catch (error) {
       setInitialRoute('Landing');
     }
   };
+
   return (
-    <NavigationContainer>
-      {!initialRoute ? (
-        <Loader visible={true} />
-      ) : (
-        <>
-          <Stack.Navigator
-            screenOptions={{headerShown: false}}
-            initialRouteName={initialRoute}>
-            <Stack.Screen name="Landing" component={LandingScreen} />
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Register" component={Register} />
-            <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="UserDetail" component={UserDetails} />
-          </Stack.Navigator>
-        </>
-      )}
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        {!initialRoute ? (
+          <Loader visible={true} />
+        ) : (
+          <>
+            <Stack.Navigator
+              screenOptions={{headerShown: false}}
+              initialRouteName={initialRoute}>
+              <Stack.Screen name="Landing" component={LandingScreen} />
+              <Stack.Screen name="Login" component={Login} />
+              <Stack.Screen name="Register" component={Register} />
+              <Stack.Screen name="Home" component={Home} />
+              <Stack.Screen name="UserDetail" component={UserDetails} />
+            </Stack.Navigator>
+          </>
+        )}
+      </NavigationContainer>
+    </Provider>
   );
 };
 
