@@ -1,20 +1,24 @@
-import React, {useRef} from 'react';
-import {View, Text, Alert, DrawerLayoutAndroid} from 'react-native';
+import React from 'react';
+import {View, Text, Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Background from '../../components/Background/Background';
 import Button from '../../components/Button/Button';
 import Header from '../../components/Header/Header';
-import Drawer from '../../components/Drawer/Drawer';
+// import Drawer from '../../components/Drawer/Drawer';
 import {useForm} from 'react-hook-form';
 import InputField from '../../components/InputField/InputField';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {userDetailsStyles} from './UserDetails.style';
 
 const UserDetails = ({route, navigation}: any) => {
   const {user} = route.params;
   const {control, handleSubmit} = useForm();
-  const drawer = useRef<DrawerLayoutAndroid>(null);
+  // const drawer = useRef<DrawerLayoutAndroid>(null);
   const dispatch = useDispatch();
+
+  const loggedUser = useSelector((state: any) => {
+    return state.loggedInUser;
+  });
 
   const OnUpdatePressed = async (data: any) => {
     try {
@@ -30,7 +34,9 @@ const UserDetails = ({route, navigation}: any) => {
           var updatedUser = userDataArray[foundUserIndex];
           await AsyncStorage.setItem('users', JSON.stringify(userDataArray));
           dispatch({type: 'ADD_USER', payload: userDataArray});
-          dispatch({type: 'SET_LOGIN', payload: updatedUser});
+          if (updatedUser.email === loggedUser.email) {
+            dispatch({type: 'SET_LOGIN', payload: updatedUser});
+          }
           navigation.navigate('Home');
         }
       }
@@ -40,43 +46,39 @@ const UserDetails = ({route, navigation}: any) => {
   };
 
   return (
-    <Drawer drawer={drawer} user={user} navigation={navigation}>
-      <Background
-        source={require('../../assests/images/purple-background.jpg')}>
-        <Header user={user} drawer={drawer} />
-        <View style={userDetailsStyles.container}>
-          <View style={userDetailsStyles.card}>
-            <Text style={userDetailsStyles.cardTitle}>Edit Form</Text>
-            <View>
-              <InputField
-                label="First Name"
-                name="first_name"
-                control={control}
-                defaultValue={user?.first_name}
-              />
-              <InputField
-                label="Last Name"
-                name="last_name"
-                control={control}
-                defaultValue={user?.last_name}
-              />
-              <InputField
-                label="Email"
-                name="email"
-                keyboardType="email-address"
-                control={control}
-                defaultValue={user?.email}
-                editable={false}
-              />
-              <Button
-                btnLabel="Update"
-                onPress={handleSubmit(OnUpdatePressed)}
-              />
-            </View>
+    // <Drawer drawer={drawer} user={user} navigation={navigation}>
+    <Background source={require('../../assests/images/purple-background.jpg')}>
+      <Header user={loggedUser} navigation={navigation} />
+      <View style={userDetailsStyles.container}>
+        <View style={userDetailsStyles.card}>
+          <Text style={userDetailsStyles.cardTitle}>Edit Form</Text>
+          <View>
+            <InputField
+              label="First Name"
+              name="first_name"
+              control={control}
+              defaultValue={user?.first_name}
+            />
+            <InputField
+              label="Last Name"
+              name="last_name"
+              control={control}
+              defaultValue={user?.last_name}
+            />
+            <InputField
+              label="Email"
+              name="email"
+              keyboardType="email-address"
+              control={control}
+              defaultValue={user?.email}
+              editable={false}
+            />
+            <Button btnLabel="Update" onPress={handleSubmit(OnUpdatePressed)} />
           </View>
         </View>
-      </Background>
-    </Drawer>
+      </View>
+    </Background>
+    // </Drawer>
   );
 };
 

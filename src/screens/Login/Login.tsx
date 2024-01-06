@@ -9,8 +9,14 @@ import {emailRegex} from '../../utils/constants';
 import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Login = ({navigation}: NavigationProps) => {
-  const {control, handleSubmit} = useForm();
+const Login = ({
+  route,
+  navigation,
+}: {
+  route: any;
+  navigation: NavigationProps;
+}) => {
+  const {control, handleSubmit, setValue} = useForm();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,13 +28,18 @@ const Login = ({navigation}: NavigationProps) => {
     };
 
     fetchUsers();
-  }, [dispatch]);
+    const registeredEmail = route.params?.registeredEmail;
+    if (registeredEmail) {
+      setValue('email', registeredEmail);
+    }
+  }, [dispatch, route, setValue]);
 
   const users = useSelector((state: any) => {
     return state.data;
   });
 
   const OnSignInPressed = (data: any) => {
+    setValue('password', '');
     try {
       const foundUser = users.find((user: any) => user.email === data.email);
       if (foundUser) {

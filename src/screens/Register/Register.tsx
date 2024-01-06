@@ -29,7 +29,7 @@ const Register = ({navigation}: NavigationProps) => {
       const newUsers = [...existingUsers, data];
       await AsyncStorage.setItem('users', JSON.stringify(newUsers));
       dispatch({type: 'ADD_USER', payload: newUsers});
-      navigation.navigate('Login');
+      navigation.navigate('Login', {registeredEmail: data.email});
     } catch (error) {
       Alert.alert('Error', 'Something went wrong');
     }
