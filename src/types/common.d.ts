@@ -1,31 +1,99 @@
-type ButtonProps = {
-  btnLabel: string;
-  buttonContainer?: ViewStyle;
-  buttonText?: TextStyle;
-  Press: () => void;
+// Common Types
+type RootStackParamList = {
+  Landing: undefined;
+  Login: undefined;
+  Register: undefined;
+  Home: undefined;
+  UserDetail: undefined;
 };
 
+type Navigation = NativeStackScreenProps<RootStackParamList>;
+
+type User = {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+};
+
+type LoginFormData = FieldValues & {
+  email: string;
+  password: string;
+};
+
+type RegisterFormData = FieldValues & {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+};
+
+type UpdateFormData = FieldValues & {
+  first_name: string;
+  last_name: string;
+  email: string;
+};
+
+type State = {
+  data: User[];
+  loggedInUser: any;
+};
+
+type Action = {
+  type: string;
+  payload: any;
+};
+
+// Component Types
 type BackgroundProps = {
   children?: React.ReactNode;
   source: ImageSourcePropType;
 };
 
+type ButtonProps = {
+  btnLabel: string;
+  buttonContainer?: ViewStyle;
+  buttonText?: TextStyle;
+  onPress: () => {};
+};
+
+type HeaderProps = {
+  user?: User;
+  navigation: Navigation;
+  children: ReactNode;
+  home?: boolean;
+};
+
 type InputFieldProps = {
   label: string;
-  onChangeText?: (text: string) => void;
+  password?: boolean;
+  onFocus?: () => void;
+  control: Control<FieldValues>;
+  rules?: object;
+  name: string;
+  defaultValue?: string;
+  placeholder?: string;
+  keyboardType?: KeyboardTypeOptions;
+  editable?: boolean;
 };
 
-type RootStackParamList = {
-  Landing: undefined;
-  Login: undefined;
-  Register: undefined;
+type LoaderProps = {
+  visible: boolean;
 };
 
-type NavigationProps = NativeStackScreenProps<RootStackParamList>;
+// Reducer Type
+type ReducerProps = {
+  state?: State;
+  action: Action;
+};
 
-type DrawerProps = {
-  user: any;
-  drawer: any;
-  navigation: NavigationProps;
-  children: any;
+// Screen Types
+type LoginProps = {
+  route: any;
+  navigation: Navigation;
+};
+
+type UserDetailsProps = {
+  route: any;
+  navigation: Navigation;
 };

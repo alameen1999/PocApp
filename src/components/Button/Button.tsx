@@ -6,8 +6,8 @@ const Button = ({
   btnLabel,
   buttonContainer,
   buttonText,
-  onPress = () => {},
-}: any) => {
+  onPress,
+}: ButtonProps) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}

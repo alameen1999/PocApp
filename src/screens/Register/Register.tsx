@@ -9,18 +9,18 @@ import {emailRegex} from '../../utils/constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
 
-const Register = ({navigation}: NavigationProps) => {
+const Register = ({navigation}: Navigation) => {
   const {control, handleSubmit} = useForm();
   const dispatch = useDispatch();
 
-  const OnSignUpPressed = async (data: any) => {
+  const OnSignUpPressed = async (data: RegisterFormData) => {
     try {
       const existingUsersJSON = await AsyncStorage.getItem('users');
       const existingUsers = existingUsersJSON
         ? JSON.parse(existingUsersJSON)
         : [];
       const isEmailRegistered = existingUsers.some(
-        (user: any) => user.email === data.email,
+        (user: User) => user.email === data.email,
       );
       if (isEmailRegistered) {
         Alert.alert('Error', 'Email is already registered');

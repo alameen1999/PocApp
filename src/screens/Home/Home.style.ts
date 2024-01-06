@@ -4,8 +4,6 @@ export const homeStyle = StyleSheet.create({
   container: {
     flex: 1,
     paddingVertical: 22,
-    // justifyContent: 'center',
-    // alignItems: 'center',
   },
   testContent: {
     fontSize: 20,
@@ -23,7 +21,6 @@ export const homeStyle = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 25,
     flex: 1,
-    // alignItems: 'center',
     marginRight: 0,
     paddingTop: 10,
   },

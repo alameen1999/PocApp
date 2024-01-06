@@ -1,28 +1,24 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import Background from '../../components/Background/Background';
 import {homeStyle} from './Home.style';
 import Header from '../../components/Header/Header';
-import {DrawerLayoutAndroid} from 'react-native';
-import Drawer from '../../components/Drawer/Drawer';
 import {useSelector} from 'react-redux';
 
-const Home = ({navigation}: NavigationProps) => {
-  const drawer = useRef<DrawerLayoutAndroid>(null);
-
-  const user = useSelector((state: any) => {
+const Home = ({navigation}: Navigation) => {
+  const loggedInUser = useSelector((state: State) => {
     return state.loggedInUser;
   });
 
-  const users = useSelector((state: any) => {
+  const users = useSelector((state: State) => {
     return state.data;
   });
 
-  const navigateToUserDetails = (user: any) => {
+  const navigateToUserDetails = (user: User) => {
     navigation.navigate('UserDetail', {user});
   };
 
-  const renderItem = ({item}: {item: any}) => (
+  const renderItem = ({item}: {item: User}) => (
     <TouchableOpacity onPress={() => navigateToUserDetails(item)}>
       <View style={homeStyle.userContainer}>
         <View style={homeStyle.userInfoView}>
@@ -36,13 +32,12 @@ const Home = ({navigation}: NavigationProps) => {
     </TouchableOpacity>
   );
 
-  const keyExtractor = (item: any) => item.email;
+  const keyExtractor = (item: User) => item.email;
 
   return (
-    <Drawer drawer={drawer} user={user} navigation={navigation}>
+    <Header user={loggedInUser} home={true} navigation={navigation}>
       <Background
         source={require('../../assests/images/purple-background.jpg')}>
-        <Header user={user} drawer={drawer} />
         <View style={homeStyle.container}>
           {users && (
             <FlatList
@@ -54,7 +49,7 @@ const Home = ({navigation}: NavigationProps) => {
           )}
         </View>
       </Background>
-    </Drawer>
+    </Header>
   );
 };
 

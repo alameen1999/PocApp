@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Text, TextInput, View} from 'react-native';
 import {inputStyle} from './InputField.style';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Controller} from 'react-hook-form';
+import {Controller, FieldError} from 'react-hook-form';
 
 const InputField = ({
   label,
@@ -13,11 +13,11 @@ const InputField = ({
   name,
   defaultValue,
   ...props
-}: any) => {
+}: InputFieldProps) => {
   const [isFocused, setIsFocused] = useState(false);
   const [hidePassword, setHidePassword] = useState(password);
 
-  const getBorderColor = (error: any) => {
+  const getBorderColor = (error: FieldError | undefined) => {
     if (error) {
       return 'red';
     } else if (isFocused) {

@@ -1,27 +1,24 @@
 import {StyleSheet} from 'react-native';
 
 export const headerStyle = StyleSheet.create({
-  container: {
-    backgroundColor: '#5A189A',
-  },
   headerContainer: {
     flexDirection: 'row',
-    padding: 15,
+    justifyContent: 'space-between',
+    padding: 10,
     backgroundColor: '#5A189A',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   headerText: {
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
   },
-  iconContainer: {
-    flex: 1,
+  profileContainer: {
+    flexDirection: 'row',
   },
   drawerContainer: {
     flex: 1,
     padding: 20,
+    backgroundColor: '#EED0FF',
   },
   userInfoDrawer: {
     flexDirection: 'column',

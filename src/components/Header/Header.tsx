@@ -1,37 +1,67 @@
-import React from 'react';
-import {View, Text, SafeAreaView} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, Alert} from 'react-native';
 import {headerStyle} from './Header.style';
 import HamburgerIcon from 'react-native-vector-icons/FontAwesome';
-import BackIcon from 'react-native-vector-icons/Ionicons';
 import UserIcon from 'react-native-vector-icons/EvilIcons';
+import {Drawer} from 'react-native-drawer-layout';
+import Button from '../Button/Button';
+import BackIcon from 'react-native-vector-icons/Ionicons';
+import {useDispatch} from 'react-redux';
 
-const Header = ({user, drawer, navigation}: any) => {
-  return (
-    <SafeAreaView style={headerStyle.container}>
-      <View style={headerStyle.headerContainer}>
-        <View style={headerStyle.iconContainer}>
-          {drawer ? (
-            <HamburgerIcon
-              name="bars"
-              size={30}
-              color="white"
-              onPress={() => drawer.current?.openDrawer()}
-            />
-          ) : (
-            navigation && (
-              <BackIcon
-                name="arrow-back"
-                size={30}
-                color="white"
-                onPress={() => navigation.goBack()}
-              />
-            )
-          )}
-        </View>
-        <Text style={headerStyle.headerText}>{user?.first_name}</Text>
-        <UserIcon name="user" size={30} color="white" />
+const Header = ({user, navigation, children, home}: HeaderProps) => {
+  const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const OnSignoutPressed = async () => {
+    try {
+      dispatch({type: 'SET_LOGIN', payload: []});
+      navigation.navigate('Login');
+    } catch (error) {
+      Alert.alert('Error', 'Error signing out');
+    }
+  };
+
+  const navigationView = () => (
+    <View style={headerStyle.drawerContainer}>
+      <View style={headerStyle.userInfoDrawer}>
+        <Text style={headerStyle.userInfoText}>
+          {`${user?.first_name} ${user?.last_name}`}
+        </Text>
+        <Text style={headerStyle.userInfoText}>{user?.email}</Text>
       </View>
-    </SafeAreaView>
+      <Button btnLabel="Logout" onPress={OnSignoutPressed} />
+    </View>
+  );
+
+  return (
+    <Drawer
+      open={open}
+      onOpen={() => setOpen(true)}
+      onClose={() => setOpen(false)}
+      renderDrawerContent={navigationView}>
+      <View style={headerStyle.headerContainer}>
+        {home ? (
+          <HamburgerIcon
+            name="bars"
+            size={30}
+            color="white"
+            onPress={() => setOpen(prevOpen => !prevOpen)}
+          />
+        ) : (
+          <BackIcon
+            name="arrow-back"
+            size={30}
+            color="white"
+            onPress={() => navigation.goBack()}
+          />
+        )}
+        <View style={headerStyle.profileContainer}>
+          <Text style={headerStyle.headerText}>{user?.first_name}</Text>
+          <UserIcon name="user" size={30} color="white" />
+        </View>
+      </View>
+      {children}
+    </Drawer>
   );
 };
 

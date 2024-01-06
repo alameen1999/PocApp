@@ -4,7 +4,7 @@ import {landingStyle} from './LandingScreen.style';
 import Button from '../../components/Button/Button';
 import Background from '../../components/Background/Background';
 
-const LandingScreen = ({navigation}: NavigationProps) => {
+const LandingScreen = ({navigation}: Navigation) => {
   return (
     <Background source={require('../../assests/images/purple-background.jpg')}>
       <View style={landingStyle.container}>
