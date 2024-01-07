@@ -4,6 +4,7 @@ import Background from '../../components/Background/Background';
 import {homeStyle} from './Home.style';
 import Header from '../../components/Header/Header';
 import {useSelector} from 'react-redux';
+import ErrorScreen from '../ErrorScreen/ErrorScreen';
 
 const Home = ({navigation}: Navigation) => {
   const loggedInUser = useSelector((state: State) => {
@@ -35,21 +36,27 @@ const Home = ({navigation}: Navigation) => {
   const keyExtractor = (item: User) => item.email;
 
   return (
-    <Header user={loggedInUser} home={true} navigation={navigation}>
-      <Background
-        source={require('../../assests/images/purple-background.jpg')}>
-        <View style={homeStyle.container}>
-          {users && (
-            <FlatList
-              style={homeStyle.userList}
-              data={users}
-              renderItem={renderItem}
-              keyExtractor={keyExtractor}
-            />
-          )}
-        </View>
-      </Background>
-    </Header>
+    <>
+      {loggedInUser ? (
+        <Header user={loggedInUser} home={true} navigation={navigation}>
+          <Background
+            source={require('../../assests/images/purple-background.jpg')}>
+            <View style={homeStyle.container}>
+              {users && (
+                <FlatList
+                  style={homeStyle.userList}
+                  data={users}
+                  renderItem={renderItem}
+                  keyExtractor={keyExtractor}
+                />
+              )}
+            </View>
+          </Background>
+        </Header>
+      ) : (
+        <ErrorScreen />
+      )}
+    </>
   );
 };
 

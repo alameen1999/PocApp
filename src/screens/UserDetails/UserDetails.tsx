@@ -8,6 +8,7 @@ import {useForm} from 'react-hook-form';
 import InputField from '../../components/InputField/InputField';
 import {useDispatch, useSelector} from 'react-redux';
 import {userDetailsStyles} from './UserDetails.style';
+import ErrorScreen from '../ErrorScreen/ErrorScreen';
 
 const UserDetails = ({route, navigation}: UserDetailsProps) => {
   const {user} = route.params;
@@ -44,42 +45,48 @@ const UserDetails = ({route, navigation}: UserDetailsProps) => {
   };
 
   return (
-    <Header user={loggedUser} navigation={navigation}>
-      <Background
-        source={require('../../assests/images/purple-background.jpg')}>
-        <View style={userDetailsStyles.container}>
-          <View style={userDetailsStyles.card}>
-            <Text style={userDetailsStyles.cardTitle}>Edit Form</Text>
-            <View>
-              <InputField
-                label="First Name"
-                name="first_name"
-                control={control}
-                defaultValue={user?.first_name}
-              />
-              <InputField
-                label="Last Name"
-                name="last_name"
-                control={control}
-                defaultValue={user?.last_name}
-              />
-              <InputField
-                label="Email"
-                name="email"
-                keyboardType="email-address"
-                control={control}
-                defaultValue={user?.email}
-                editable={false}
-              />
-              <Button
-                btnLabel="Update"
-                onPress={handleSubmit(OnUpdatePressed)}
-              />
+    <>
+      {loggedUser && user ? (
+        <Header user={loggedUser} navigation={navigation}>
+          <Background
+            source={require('../../assests/images/purple-background.jpg')}>
+            <View style={userDetailsStyles.container}>
+              <View style={userDetailsStyles.card}>
+                <Text style={userDetailsStyles.cardTitle}>Edit Form</Text>
+                <View>
+                  <InputField
+                    label="First Name"
+                    name="first_name"
+                    control={control}
+                    defaultValue={user?.first_name}
+                  />
+                  <InputField
+                    label="Last Name"
+                    name="last_name"
+                    control={control}
+                    defaultValue={user?.last_name}
+                  />
+                  <InputField
+                    label="Email"
+                    name="email"
+                    keyboardType="email-address"
+                    control={control}
+                    defaultValue={user?.email}
+                    editable={false}
+                  />
+                  <Button
+                    btnLabel="Update"
+                    onPress={handleSubmit(OnUpdatePressed)}
+                  />
+                </View>
+              </View>
             </View>
-          </View>
-        </View>
-      </Background>
-    </Header>
+          </Background>
+        </Header>
+      ) : (
+        <ErrorScreen />
+      )}
+    </>
   );
 };
 

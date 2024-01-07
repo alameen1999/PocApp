@@ -54,7 +54,7 @@ type ButtonProps = {
   btnLabel: string;
   buttonContainer?: ViewStyle;
   buttonText?: TextStyle;
-  onPress: () => {};
+  onPress: () => void;
 };
 
 type HeaderProps = {

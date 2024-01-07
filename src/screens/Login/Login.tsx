@@ -44,7 +44,7 @@ const Login = ({route, navigation}: LoginProps) => {
           return Alert.alert('Error', 'Invalid Password');
         }
       }
-      return Alert.alert('Error', 'Invalid Email');
+      return Alert.alert('Error', 'Email Does not exist');
     } catch (error) {
       return Alert.alert('Error', 'Something went wrong');
     }
