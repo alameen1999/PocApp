@@ -39,7 +39,7 @@ const Register = ({navigation}: Navigation) => {
     <Background source={require('../../assests/images/purple-background.jpg')}>
       <View style={registerStyle.container}>
         <View style={registerStyle.card}>
-          <Text style={registerStyle.cardTitle}>Register</Text>
+          <Text style={registerStyle.cardTitle}>Register Form</Text>
           <View>
             <InputField
               label="First Name"
@@ -75,7 +75,7 @@ const Register = ({navigation}: Navigation) => {
               rules={{
                 required: 'Password is required',
                 minLength: {
-                  value: 8,
+                  value: 3,
                   message: 'Password should be minimun 3 characters long',
                 },
               }}
