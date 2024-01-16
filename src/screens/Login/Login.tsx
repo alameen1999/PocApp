@@ -6,31 +6,21 @@ import InputField from '../../components/InputField/InputField';
 import Background from '../../components/Background/Background';
 import {useForm} from 'react-hook-form';
 import {emailRegex} from '../../utils/constants';
-import {useDispatch, useSelector} from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from 'react-redux';
+import {useUsers} from '../../utils/selectors';
+import {login} from '../../redux/actions/actions';
 
 const Login = ({route, navigation}: LoginProps) => {
   const {control, handleSubmit, setValue} = useForm();
   const dispatch = useDispatch();
+  const users = useUsers();
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      const users = await AsyncStorage.getItem('users');
-      if (users !== null) {
-        dispatch({type: 'ADD_USER', payload: JSON.parse(users)});
-      }
-    };
-
-    fetchUsers();
     const registeredEmail = route.params?.registeredEmail;
     if (registeredEmail) {
       setValue('email', registeredEmail);
     }
   }, [dispatch, route, setValue]);
-
-  const users = useSelector((state: State) => {
-    return state.data;
-  });
 
   const OnSignInPressed = (data: LoginFormData) => {
     setValue('password', '');
@@ -38,7 +28,7 @@ const Login = ({route, navigation}: LoginProps) => {
       const foundUser = users.find((user: User) => user.email === data.email);
       if (foundUser) {
         if (foundUser.password === data.password) {
-          dispatch({type: 'SET_LOGIN', payload: foundUser});
+          dispatch(login(foundUser));
           return navigation.navigate('Home');
         } else {
           return Alert.alert('Error', 'Invalid Password');

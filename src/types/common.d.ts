@@ -10,6 +10,7 @@ type RootStackParamList = {
 type Navigation = NativeStackScreenProps<RootStackParamList>;
 
 type User = {
+  id: number;
   first_name: string;
   last_name: string;
   email: string;
@@ -35,8 +36,9 @@ type UpdateFormData = FieldValues & {
 };
 
 type State = {
-  data: User[];
-  loggedInUser: any;
+  users: User[];
+  isLoggedIn: boolean;
+  user: any;
 };
 
 type Action = {

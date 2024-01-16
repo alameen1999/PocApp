@@ -3,17 +3,13 @@ import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import Background from '../../components/Background/Background';
 import {homeStyle} from './Home.style';
 import Header from '../../components/Header/Header';
-import {useSelector} from 'react-redux';
 import ErrorScreen from '../ErrorScreen/ErrorScreen';
+import {useLoggedIn, useLoggedInUser, useUsers} from '../../utils/selectors';
 
 const Home = ({navigation}: Navigation) => {
-  const loggedInUser = useSelector((state: State) => {
-    return state.loggedInUser;
-  });
-
-  const users = useSelector((state: State) => {
-    return state.data;
-  });
+  const loggedInUser = useLoggedInUser();
+  const users = useUsers();
+  const isLoggedIn = useLoggedIn();
 
   const navigateToUserDetails = (user: User) => {
     navigation.navigate('UserDetail', {user});
@@ -37,7 +33,7 @@ const Home = ({navigation}: Navigation) => {
 
   return (
     <>
-      {loggedInUser ? (
+      {isLoggedIn ? (
         <Header user={loggedInUser} home={true} navigation={navigation}>
           <Background
             source={require('../../assests/images/purple-background.jpg')}>

@@ -6,29 +6,24 @@ import Button from '../../components/Button/Button';
 import Background from '../../components/Background/Background';
 import {useForm} from 'react-hook-form';
 import {emailRegex} from '../../utils/constants';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
+import {useUsers} from '../../utils/selectors';
+import {modifyUser} from '../../redux/actions/actions';
 
 const Register = ({navigation}: Navigation) => {
   const {control, handleSubmit} = useForm();
   const dispatch = useDispatch();
+  const existingUsers = useUsers();
 
-  const OnSignUpPressed = async (data: RegisterFormData) => {
+  const OnSignUpPressed = (data: RegisterFormData) => {
     try {
-      const existingUsersJSON = await AsyncStorage.getItem('users');
-      const existingUsers = existingUsersJSON
-        ? JSON.parse(existingUsersJSON)
-        : [];
       const isEmailRegistered = existingUsers.some(
         (user: User) => user.email === data.email,
       );
       if (isEmailRegistered) {
         Alert.alert('Error', 'Email is already registered');
-        return;
       }
-      const newUsers = [...existingUsers, data];
-      await AsyncStorage.setItem('users', JSON.stringify(newUsers));
-      dispatch({type: 'ADD_USER', payload: newUsers});
+      dispatch(modifyUser(data));
       navigation.navigate('Login', {registeredEmail: data.email});
     } catch (error) {
       Alert.alert('Error', 'Something went wrong');

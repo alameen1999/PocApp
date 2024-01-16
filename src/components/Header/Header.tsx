@@ -7,6 +7,7 @@ import {Drawer} from 'react-native-drawer-layout';
 import Button from '../Button/Button';
 import BackIcon from 'react-native-vector-icons/Ionicons';
 import {useDispatch} from 'react-redux';
+import {logout} from '../../redux/actions/actions';
 
 const Header = ({user, navigation, children, home}: HeaderProps) => {
   const [open, setOpen] = useState(false);
@@ -14,7 +15,7 @@ const Header = ({user, navigation, children, home}: HeaderProps) => {
 
   const OnSignoutPressed = async () => {
     try {
-      dispatch({type: 'SET_LOGIN', payload: []});
+      dispatch(logout());
       navigation.navigate('Login');
     } catch (error) {
       Alert.alert('Error', 'Error signing out');
