@@ -2,12 +2,10 @@ import React from 'react';
 import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import Background from '../../components/Background/Background';
 import {homeStyle} from './Home.style';
-import Header from '../../components/Header/Header';
 import ErrorScreen from '../ErrorScreen/ErrorScreen';
-import {useLoggedIn, useLoggedInUser, useUsers} from '../../utils/selectors';
+import {useLoggedIn, useUsers} from '../../utils/selectors';
 
 const Home = ({navigation}: Navigation) => {
-  const loggedInUser = useLoggedInUser();
   const users = useUsers();
   const isLoggedIn = useLoggedIn();
 
@@ -34,21 +32,19 @@ const Home = ({navigation}: Navigation) => {
   return (
     <>
       {isLoggedIn ? (
-        <Header user={loggedInUser} home={true} navigation={navigation}>
-          <Background
-            source={require('../../assests/images/purple-background.jpg')}>
-            <View style={homeStyle.container}>
-              {users && (
-                <FlatList
-                  style={homeStyle.userList}
-                  data={users}
-                  renderItem={renderItem}
-                  keyExtractor={keyExtractor}
-                />
-              )}
-            </View>
-          </Background>
-        </Header>
+        <Background
+          source={require('../../assests/images/purple-background.jpg')}>
+          <View style={homeStyle.container}>
+            {users && (
+              <FlatList
+                style={homeStyle.userList}
+                data={users}
+                renderItem={renderItem}
+                keyExtractor={keyExtractor}
+              />
+            )}
+          </View>
+        </Background>
       ) : (
         <ErrorScreen />
       )}

@@ -29,7 +29,7 @@ const Login = ({route, navigation}: LoginProps) => {
       if (foundUser) {
         if (foundUser.password === data.password) {
           dispatch(login(foundUser));
-          return navigation.navigate('Home');
+          return;
         } else {
           return Alert.alert('Error', 'Invalid Password');
         }
