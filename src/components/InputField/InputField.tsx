@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import {Text, TextInput, View} from 'react-native';
+import {TextInput, View} from 'react-native';
 import {inputStyle} from './InputField.style';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {Controller, FieldError} from 'react-hook-form';
+import TextField from '../TextField/TextField';
+import {colors} from '../../utils/colors';
 
 const InputField = ({
   label,
-  password,
   onFocus = () => {},
   control,
   rules = {},
@@ -15,20 +15,19 @@ const InputField = ({
   ...props
 }: InputFieldProps) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [hidePassword, setHidePassword] = useState(password);
 
   const getBorderColor = (error: FieldError | undefined) => {
     if (error) {
-      return 'red';
+      return colors.error;
     } else if (isFocused) {
-      return 'rgb(101,37,131)';
+      return colors.primaryColor;
     } else {
-      return '#F3F4FB';
+      return colors.lightShade;
     }
   };
   return (
     <View style={inputStyle.container}>
-      <Text style={inputStyle.label}>{label}</Text>
+      <TextField style={inputStyle.label} label={label} />
 
       <Controller
         control={control}
@@ -43,7 +42,6 @@ const InputField = ({
                 {borderColor: getBorderColor(error)},
               ]}>
               <TextInput
-                secureTextEntry={hidePassword}
                 style={inputStyle.inputContent}
                 {...props}
                 autoCorrect={false}
@@ -58,18 +56,12 @@ const InputField = ({
                 onChangeText={onChange}
                 value={value}
               />
-              {password && (
-                <Icon
-                  name={hidePassword ? 'eye-outline' : 'eye-off-outline'}
-                  style={inputStyle.iconStyle}
-                  onPress={() => setHidePassword(!hidePassword)}
-                />
-              )}
             </View>
             {error && (
-              <Text style={inputStyle.errorContent}>
-                {error.message || 'Error'}
-              </Text>
+              <TextField
+                style={inputStyle.errorContent}
+                label={error.message || 'Error'}
+              />
             )}
           </>
         )}

@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {colors} from '../../utils/colors';
 
 export const homeStyle = StyleSheet.create({
   container: {
@@ -15,7 +16,7 @@ export const homeStyle = StyleSheet.create({
     paddingHorizontal: 20,
   },
   userInfoView: {
-    backgroundColor: '#E6E6FA',
+    backgroundColor: colors.lavenderShade,
     marginTop: 10,
     paddingHorizontal: 110,
     justifyContent: 'center',
@@ -34,7 +35,7 @@ export const homeStyle = StyleSheet.create({
   userName: {
     fontSize: 14,
     fontWeight: '600',
-    color: 'rgb(101,37,131)',
+    color: colors.primaryColor,
     marginLeft: 30,
     paddingBottom: 10,
   },

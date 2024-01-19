@@ -1,6 +1,7 @@
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import React from 'react';
 import Button from '../../components/Button/Button';
+import TextField from '../../components/TextField/TextField';
 
 const ErrorScreen = ({navigation}: Navigation) => {
   const OnBackPressed = () => {
@@ -8,7 +9,7 @@ const ErrorScreen = ({navigation}: Navigation) => {
   };
   return (
     <View>
-      <Text>Error, Try again</Text>
+      <TextField label="Error, Try again" />
       <Button btnLabel="Go Back" onPress={OnBackPressed} />
     </View>
   );

@@ -1,12 +1,13 @@
 import React from 'react';
-import {FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, TouchableOpacity, View} from 'react-native';
 import Background from '../../components/Background/Background';
 import {homeStyle} from './Home.style';
 import ErrorScreen from '../ErrorScreen/ErrorScreen';
-import {useLoggedIn, useUsers} from '../../utils/selectors';
+import {useGetUsers, useLoggedIn} from '../../utils/selectors';
+import TextField from '../../components/TextField/TextField';
 
 const Home = ({navigation}: Navigation) => {
-  const users = useUsers();
+  const users = useGetUsers();
   const isLoggedIn = useLoggedIn();
 
   const navigateToUserDetails = (user: User) => {
@@ -17,11 +18,11 @@ const Home = ({navigation}: Navigation) => {
     <TouchableOpacity onPress={() => navigateToUserDetails(item)}>
       <View style={homeStyle.userContainer}>
         <View style={homeStyle.userInfoView}>
-          <Text
-            style={
-              homeStyle.userName
-            }>{`${item.first_name} ${item.last_name}`}</Text>
-          <Text style={homeStyle.email}>{item.email}</Text>
+          <TextField
+            style={homeStyle.userName}
+            label={`${item.first_name} ${item.last_name}`}
+          />
+          <TextField style={homeStyle.email} label={item.email} />
         </View>
       </View>
     </TouchableOpacity>

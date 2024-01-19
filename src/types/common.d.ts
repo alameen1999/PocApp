@@ -68,7 +68,6 @@ type HeaderProps = {
 
 type InputFieldProps = {
   label: string;
-  password?: boolean;
   onFocus?: () => void;
   control: Control<FieldValues>;
   rules?: object;
@@ -77,6 +76,7 @@ type InputFieldProps = {
   placeholder?: string;
   keyboardType?: KeyboardTypeOptions;
   editable?: boolean;
+  secureTextEntry?: boolean;
 };
 
 type LoaderProps = {
@@ -98,4 +98,9 @@ type LoginProps = {
 type UserDetailsProps = {
   route: any;
   navigation: Navigation;
+};
+
+type TextFieldProps = {
+  label: string;
+  style?: any;
 };

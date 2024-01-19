@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {colors} from '../../utils/colors';
 
 export const registerStyle = StyleSheet.create({
   container: {
@@ -8,23 +9,24 @@ export const registerStyle = StyleSheet.create({
   },
   card: {
     borderWidth: 1,
-    borderColor: 'white',
-    backgroundColor: 'white',
+    borderColor: colors.TertiaryColor,
+    backgroundColor: colors.TertiaryColor,
     borderRadius: 8,
     margin: 16,
     padding: 16,
     width: '80%',
   },
-  cardTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-    color: 'rgb(101,37,131)',
-  },
   buttonContainer: {
-    backgroundColor: 'white',
+    backgroundColor: colors.TertiaryColor,
   },
   buttonText: {
-    color: 'rgb(101,37,131)',
+    color: colors.primaryColor,
+  },
+  iconStyle: {
+    position: 'absolute',
+    right: 10,
+    top: 40,
+    fontSize: 22,
+    color: colors.primaryColor,
   },
 });

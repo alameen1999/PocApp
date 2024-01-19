@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {View, Text, Alert} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Alert} from 'react-native';
 import {loginStyle} from './Login.style';
 import Button from '../../components/Button/Button';
 import InputField from '../../components/InputField/InputField';
@@ -7,20 +7,24 @@ import Background from '../../components/Background/Background';
 import {useForm} from 'react-hook-form';
 import {emailRegex} from '../../utils/constants';
 import {useDispatch} from 'react-redux';
-import {useUsers} from '../../utils/selectors';
+import {useGetUsers} from '../../utils/selectors';
 import {login} from '../../redux/actions/actions';
+import Icon from 'react-native-vector-icons/Ionicons';
+import TextField from '../../components/TextField/TextField';
+import {label, modal, name, placeHolder, validation} from '../../utils/label';
 
 const Login = ({route, navigation}: LoginProps) => {
   const {control, handleSubmit, setValue} = useForm();
   const dispatch = useDispatch();
-  const users = useUsers();
+  const users = useGetUsers();
+  const [hidePassword, setHidePassword] = useState(true);
 
   useEffect(() => {
     const registeredEmail = route.params?.registeredEmail;
     if (registeredEmail) {
       setValue('email', registeredEmail);
     }
-  }, [dispatch, route, setValue]);
+  }, [route, setValue]);
 
   const OnSignInPressed = (data: LoginFormData) => {
     setValue('password', '');
@@ -31,12 +35,12 @@ const Login = ({route, navigation}: LoginProps) => {
           dispatch(login(foundUser));
           return;
         } else {
-          return Alert.alert('Error', 'Invalid Password');
+          return Alert.alert(modal.header, modal.password);
         }
       }
-      return Alert.alert('Error', 'Email Does not exist');
+      return Alert.alert(modal.header, modal.email);
     } catch (error) {
-      return Alert.alert('Error', 'Something went wrong');
+      return Alert.alert(modal.header, modal.other);
     }
   };
 
@@ -44,32 +48,42 @@ const Login = ({route, navigation}: LoginProps) => {
     <Background source={require('../../assests/images/purple-background.jpg')}>
       <View style={loginStyle.container}>
         <View style={loginStyle.card}>
-          <Text style={loginStyle.cardTitle}>POC App</Text>
+          <TextField label="POC App" />
           <View>
             <InputField
-              label="Email"
-              name="email"
-              placeholder="Enter your email address"
+              label={label.email}
+              name={name.email}
+              placeholder={placeHolder.email}
               keyboardType="email-address"
               control={control}
               rules={{
-                required: 'Email is required',
-                pattern: {value: emailRegex, message: 'Email is invalid'},
+                required: validation.email,
+                pattern: {value: emailRegex, message: validation.invalidEmail},
               }}
             />
-            <InputField
-              label="Password"
-              name="password"
-              placeholder="Enter your password"
-              password
-              control={control}
-              rules={{
-                required: 'Password is required',
-              }}
-            />
-            <Button btnLabel="Login" onPress={handleSubmit(OnSignInPressed)} />
+            <View>
+              <InputField
+                label={label.password}
+                name={name.password}
+                placeholder={placeHolder.password}
+                secureTextEntry={hidePassword}
+                control={control}
+                rules={{
+                  required: validation.password,
+                }}
+              />
+              <Icon
+                name={hidePassword ? 'eye-off-outline' : 'eye-outline'}
+                style={loginStyle.iconStyle}
+                onPress={() => setHidePassword(!hidePassword)}
+              />
+            </View>
             <Button
-              btnLabel="Sign Up"
+              btnLabel={label.signIn}
+              onPress={handleSubmit(OnSignInPressed)}
+            />
+            <Button
+              btnLabel={label.signUp}
               buttonContainer={loginStyle.buttonContainer}
               buttonText={loginStyle.buttonText}
               onPress={() => navigation.navigate('Register')}

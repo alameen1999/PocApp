@@ -1,6 +1,7 @@
 import React from 'react';
-import {useWindowDimensions, View, Text, ActivityIndicator} from 'react-native';
+import {useWindowDimensions, View, ActivityIndicator} from 'react-native';
 import {loaderStyle} from './Loader.style';
+import TextField from '../TextField/TextField';
 const Loader = ({visible = false}: LoaderProps) => {
   const {width, height} = useWindowDimensions();
   return (
@@ -8,7 +9,7 @@ const Loader = ({visible = false}: LoaderProps) => {
       <View style={[loaderStyle.container, {height, width}]}>
         <View style={loaderStyle.loader}>
           <ActivityIndicator size="large" />
-          <Text style={loaderStyle.textStyle}>Loading...</Text>
+          <TextField style={loaderStyle.textStyle} labe="Loading..." />
         </View>
       </View>
     )

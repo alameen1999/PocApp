@@ -1,10 +1,11 @@
 import {StyleSheet} from 'react-native';
+import {colors} from '../../utils/colors';
 
 export const drawerStyle = StyleSheet.create({
   drawerContainer: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#EED0FF',
+    backgroundColor: colors.secondaryColor,
   },
   userInfoDrawer: {
     flexDirection: 'column',
@@ -12,6 +13,6 @@ export const drawerStyle = StyleSheet.create({
   },
   userInfoText: {
     fontSize: 16,
-    color: 'rgb(101,37,131)',
+    color: colors.primaryColor,
   },
 });

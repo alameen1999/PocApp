@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {colors} from '../../utils/colors';
 
 export const userDetailsStyles = StyleSheet.create({
   container: {
@@ -8,8 +9,8 @@ export const userDetailsStyles = StyleSheet.create({
   },
   card: {
     borderWidth: 1,
-    borderColor: 'white',
-    backgroundColor: 'white',
+    borderColor: colors.TertiaryColor,
+    backgroundColor: colors.TertiaryColor,
     borderRadius: 8,
     margin: 16,
     padding: 16,
@@ -19,6 +20,6 @@ export const userDetailsStyles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
-    color: 'rgb(101,37,131)',
+    color: colors.primaryColor,
   },
 });

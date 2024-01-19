@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, Text, Alert} from 'react-native';
+import React, {useState} from 'react';
+import {View, Alert} from 'react-native';
 import InputField from '../../components/InputField/InputField';
 import {registerStyle} from './Register.style';
 import Button from '../../components/Button/Button';
@@ -7,13 +7,17 @@ import Background from '../../components/Background/Background';
 import {useForm} from 'react-hook-form';
 import {emailRegex} from '../../utils/constants';
 import {useDispatch} from 'react-redux';
-import {useUsers} from '../../utils/selectors';
+import {useGetUsers} from '../../utils/selectors';
 import {modifyUser} from '../../redux/actions/actions';
+import Icon from 'react-native-vector-icons/Ionicons';
+import TextField from '../../components/TextField/TextField';
+import {label, modal, name, placeHolder, validation} from '../../utils/label';
 
 const Register = ({navigation}: Navigation) => {
   const {control, handleSubmit} = useForm();
   const dispatch = useDispatch();
-  const existingUsers = useUsers();
+  const existingUsers = useGetUsers();
+  const [hidePassword, setHidePassword] = useState(true);
 
   const OnSignUpPressed = (data: RegisterFormData) => {
     try {
@@ -21,12 +25,12 @@ const Register = ({navigation}: Navigation) => {
         (user: User) => user.email === data.email,
       );
       if (isEmailRegistered) {
-        Alert.alert('Error', 'Email is already registered');
+        Alert.alert(modal.header, modal.emailExist);
       }
       dispatch(modifyUser(data));
       navigation.navigate('Login', {registeredEmail: data.email});
     } catch (error) {
-      Alert.alert('Error', 'Something went wrong');
+      Alert.alert(modal.header, modal.other);
     }
   };
 
@@ -34,47 +38,54 @@ const Register = ({navigation}: Navigation) => {
     <Background source={require('../../assests/images/purple-background.jpg')}>
       <View style={registerStyle.container}>
         <View style={registerStyle.card}>
-          <Text style={registerStyle.cardTitle}>Register Form</Text>
+          <TextField label="Register Form" />
           <View>
             <InputField
-              label="First Name"
-              name="first_name"
-              placeholder="Enter your first name"
+              label={label.firstName}
+              name={name.firstName}
+              placeholder={placeHolder.firstName}
               control={control}
-              rules={{required: 'First name is required'}}
+              rules={{required: validation.firstName}}
             />
             <InputField
-              label="Last Name"
-              name="last_name"
-              placeholder="Enter your last name"
+              label={label.lastName}
+              name={name.lastName}
+              placeholder={placeHolder.lastName}
               control={control}
-              rules={{required: 'Last name is required'}}
+              rules={{required: validation.lastName}}
             />
             <InputField
-              label="Email"
-              name="email"
-              placeholder="Enter your email address"
+              label={label.email}
+              name={name.email}
+              placeholder={placeHolder.email}
               keyboardType="email-address"
               control={control}
               rules={{
-                required: 'Email is required',
-                pattern: {value: emailRegex, message: 'Email is invalid'},
+                required: validation.email,
+                pattern: {value: emailRegex, message: validation.invalidEmail},
               }}
             />
-            <InputField
-              label="Password"
-              name="password"
-              placeholder="Enter your password"
-              password
-              control={control}
-              rules={{
-                required: 'Password is required',
-                minLength: {
-                  value: 3,
-                  message: 'Password should be minimun 3 characters long',
-                },
-              }}
-            />
+            <View>
+              <InputField
+                label={label.password}
+                name={name.password}
+                placeholder={placeHolder.password}
+                secureTextEntry={hidePassword}
+                control={control}
+                rules={{
+                  required: validation.password,
+                  minLength: {
+                    value: 3,
+                    message: validation.invalidPassword,
+                  },
+                }}
+              />
+              <Icon
+                name={hidePassword ? 'eye-off-outline' : 'eye-outline'}
+                style={registerStyle.iconStyle}
+                onPress={() => setHidePassword(!hidePassword)}
+              />
+            </View>
             <Button
               btnLabel="Register"
               onPress={handleSubmit(OnSignUpPressed)}

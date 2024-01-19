@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {colors} from '../../utils/colors';
 
 export const inputStyle = StyleSheet.create({
   container: {
@@ -7,11 +8,11 @@ export const inputStyle = StyleSheet.create({
   label: {
     marginVertical: 5,
     fontSize: 14,
-    color: 'rgb(101,37,131)',
+    color: colors.primaryColor,
   },
   inputContainer: {
     height: 45,
-    backgroundColor: '#F3F4FB',
+    backgroundColor: colors.lightShade,
     flexDirection: 'row',
     marginHorizontal: 0,
     borderWidth: 0.5,
@@ -22,13 +23,8 @@ export const inputStyle = StyleSheet.create({
     textDecorationLine: 'none',
   },
   errorContent: {
-    color: 'red',
+    color: colors.error,
     fontSize: 12,
     marginTop: 7,
-  },
-  iconStyle: {
-    fontSize: 22,
-    color: 'rgb(101,37,131)',
-    marginHorizontal: 5,
   },
 });

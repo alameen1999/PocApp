@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Alert} from 'react-native';
+import {View, Alert} from 'react-native';
 import Background from '../../components/Background/Background';
 import Button from '../../components/Button/Button';
 import {useForm} from 'react-hook-form';
@@ -7,15 +7,17 @@ import InputField from '../../components/InputField/InputField';
 import {useDispatch} from 'react-redux';
 import {userDetailsStyles} from './UserDetails.style';
 import ErrorScreen from '../ErrorScreen/ErrorScreen';
-import {useLoggedInUser, useUsers} from '../../utils/selectors';
+import {useGetUsers, useLoggedInUser} from '../../utils/selectors';
 import {login, modifyUser} from '../../redux/actions/actions';
+import TextField from '../../components/TextField/TextField';
+import {label, modal, name} from '../../utils/label';
 
 const UserDetails = ({route, navigation}: UserDetailsProps) => {
   const {user} = route.params;
   const {control, handleSubmit} = useForm();
   const dispatch = useDispatch();
   const loggedUser = useLoggedInUser();
-  const users = useUsers();
+  const users = useGetUsers();
 
   const OnUpdatePressed = async (data: UpdateFormData) => {
     try {
@@ -35,7 +37,7 @@ const UserDetails = ({route, navigation}: UserDetailsProps) => {
         }
       }
     } catch (error) {
-      Alert.alert('Error', 'Error updating user details');
+      Alert.alert(modal.header, modal.update);
     }
   };
 
@@ -46,23 +48,26 @@ const UserDetails = ({route, navigation}: UserDetailsProps) => {
           source={require('../../assests/images/purple-background.jpg')}>
           <View style={userDetailsStyles.container}>
             <View style={userDetailsStyles.card}>
-              <Text style={userDetailsStyles.cardTitle}>Edit Form</Text>
+              <TextField
+                style={userDetailsStyles.cardTitle}
+                label="Edit Form"
+              />
               <View>
                 <InputField
-                  label="First Name"
-                  name="first_name"
+                  label={label.firstName}
+                  name={name.firstName}
                   control={control}
                   defaultValue={user?.first_name}
                 />
                 <InputField
-                  label="Last Name"
-                  name="last_name"
+                  label={label.lastName}
+                  name={name.lastName}
                   control={control}
                   defaultValue={user?.last_name}
                 />
                 <InputField
-                  label="Email"
-                  name="email"
+                  label={label.email}
+                  name={name.email}
                   keyboardType="email-address"
                   control={control}
                   defaultValue={user?.email}

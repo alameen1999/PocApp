@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {colors} from '../../utils/colors';
 
 export const landingStyle = StyleSheet.create({
   container: {
@@ -7,11 +8,11 @@ export const landingStyle = StyleSheet.create({
     marginHorizontal: 30,
   },
   content: {
-    color: 'rgb(101,37,131)',
+    color: colors.primaryColor,
     fontSize: 64,
   },
   text: {
-    color: 'rgb(101,37,131)',
+    color: colors.primaryColor,
     fontSize: 64,
     marginBottom: 40,
   },
